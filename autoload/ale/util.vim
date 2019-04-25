@@ -415,8 +415,9 @@ endfunction
 
 " Write a file, including carriage return characters for DOS files.
 "
-" The buffer number is required for determining the fileformat setting for
-" the buffer.
+" The buffer number is required for determining the fileformat setting for the
+" buffer. If the buffer is -1, the file will be written, but carriage returns
+" will not be added.
 function! ale#util#Writefile(buffer, lines, filename) abort
     let l:corrected_lines = getbufvar(a:buffer, '&fileformat') is# 'dos'
     \   ? map(copy(a:lines), 'substitute(v:val, ''\r*$'', ''\r'', '''')')

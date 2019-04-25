@@ -1,0 +1,17 @@
+Before:
+  let g:filename = tempname()
+
+After:
+  if filereadable(g:filename)
+    call delete(g:filename)
+  endif
+
+  unlet! g:filename
+
+Execute(Test that lines can be inserted):
+  call writefile(['first', 'second', 'third', 'fourth', 'fifth'], g:filename, 'S')
+  call ale#code_actions#ApplyChanges(g:filename, 2, 3, 4, 5, "xxx\nyyy")
+
+  AssertEqual
+  \ ['first', 'sexxx', 'yyyh', 'fifth', ''],
+  \ readfile(g:filename, 'b')
